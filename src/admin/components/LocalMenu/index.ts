@@ -1,0 +1,1 @@
+export { LocalMenu } from "./LocalMenu";

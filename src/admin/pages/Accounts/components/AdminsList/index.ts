@@ -1,0 +1,1 @@
+export { AdminsList } from "./AdminsList";

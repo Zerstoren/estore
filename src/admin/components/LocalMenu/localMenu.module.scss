@@ -1,0 +1,29 @@
+.mainBlock {
+  display: flex;
+}
+
+.menuItem {
+  padding: 0 4px;
+
+  &:first-child {
+    padding-left: 0;
+  }
+
+  &:last-child {
+    padding-right: 0;
+  }
+}
+
+.navLink {
+  color: #fff;
+  text-decoration: none;
+  cursor: pointer;
+
+  &:hover {
+    color: #f5a623;
+  }
+}
+
+.navLinkActive {
+  color: #f5a623;
+}

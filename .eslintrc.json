@@ -1,0 +1,87 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint", "prettier", "react-hooks", "import"],
+  "extends": [
+    "airbnb-typescript",
+    "airbnb",
+    "prettier",
+    "eslint:recommended",
+    "plugin:import/recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "parserOptions": {
+    "project": "tsconfig.json"
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    },
+    "import/parsers": {
+      "@typescript-eslint/parser": [".ts", ".tsx"]
+    },
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"],
+        "moduleDirectory": ["node_modules", "src/"]
+      },
+      "typescript": {
+        "project": ["tsconfig.json"]
+      }
+    }
+  },
+  "rules": {
+    "prettier/prettier": "error",
+    "quotes": [2, "double"],
+    "max-len": [2, 120, 2],
+    "radix": [0],
+    "arrow-body-style": [0],
+    "import/prefer-default-export": [0],
+    "no-plusplus": [0],
+    "no-restricted-syntax": [0],
+    "no-param-reassign": [0],
+    "import/extensions": [0],
+    "no-restricted-exports": [0],
+    "@typescript-eslint/restrict-plus-operands": [0],
+    "jsx-a11y/click-events-have-key-events": [0],
+    "jsx-a11y/no-noninteractive-element-interactions": [0],
+    "jsx-a11y/label-has-associated-control": [0],
+    "react/button-has-type": [0],
+    "react/jsx-filename-extension": [0],
+    "react-hooks/rules-of-hooks": [1],
+    "react-hooks/exhaustive-deps": [1],
+    "react/function-component-definition": [0],
+    "react/prop-types": [0],
+    "react/require-default-props": [0],
+    "react/jsx-props-no-spreading": [0, {
+      "html": "ignore",
+      "custom": "ignore",
+      "explicitSpread": "ignore"
+    }],
+    "no-shadow": [0],
+    "no-use-before-define": [0],
+    "no-unused-vars": [0],
+    "no-underscore-dangle": [0],
+    "no-redeclare": "off",
+    "@typescript-eslint/no-shadow": [2],
+    "@typescript-eslint/no-unused-vars": [0],
+    "@typescript-eslint/no-redeclare": ["error"],
+    "@typescript-eslint/no-floating-promises": [0],
+    "@typescript-eslint/no-misused-promises": [0]
+  },
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx"],
+
+      "parserOptions": {
+        "project": ["tsconfig.json"]
+      }
+    },
+    {
+      "files":  ["src/server/*.ts"],
+      "rules": {
+        "@typescript-eslint/no-var-requires": [0]
+      }
+    }
+  ]
+}
