@@ -197,6 +197,11 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-18.0.0.tgz#67c7b724e1bcdd7a8821ce0d5ee184d3b4dd525a"
   integrity sha512-cHlGmko4gWLVI27cGJntjs/Sj8th9aYwplmZFwmmgYQQvL5NUsgVJG7OddLvNfLqYS31KFN0s3qlaD9qCaxACA==
 
+"@types/password-hash@^1.2.21":
+  version "1.2.21"
+  resolved "https://registry.yarnpkg.com/@types/password-hash/-/password-hash-1.2.21.tgz#ded99ab78729fbafaf752a2ffa2bf80111bef841"
+  integrity sha512-2ydqTgBJUDekT+jeZZEiqRIAKHXYuhgFhpb6Ay8IU30UoG/VmkOeCU2xddc5SYfi2qGz699B/J6HdEHKmBquqQ==
+
 "@types/prop-types@*":
   version "15.7.5"
   resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.5.tgz#5f19d2b85a98e9558036f6a3cacc8819420f05cf"
@@ -1685,6 +1690,11 @@ parent-module@^1.0.0:
   integrity sha512-GQ2EWRpQV8/o+Aw8YqtfZZPfNRWZYkbidE9k5rpl/hC3vtHHBfGm2Ifi6qWV+coDGkrUKZAxE3Lot5kcsRlh+g==
   dependencies:
     callsites "^3.0.0"
+
+password-hash@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/password-hash/-/password-hash-1.2.2.tgz#3b451f014de4b2e1ebfa0e5493b9517b1063af1d"
+  integrity sha512-Dy/5+Srojwv+1XnMrK2bn7f2jN3k2p90DfBVA0Zd6PrjWF7lXHOTWgKT4uBp1gIsqV7/llYqm+hj+gwDBF/Fmg==
 
 path-exists@^3.0.0:
   version "3.0.0"

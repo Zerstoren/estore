@@ -22,6 +22,7 @@ const AdminAddEditUser = z.object({
   record: z.object({
     name: z.string(),
     permission: z.number(),
+    password: z.string().optional(),
   }),
 });
 

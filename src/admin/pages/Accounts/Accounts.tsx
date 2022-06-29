@@ -1,8 +1,14 @@
 import React from "react";
-import { LocalMenu } from "src/admin/components/LocalMenu";
+import dynamic from "next/dynamic";
 import { Route, Routes } from "react-router-dom";
-import { UsersList } from "src/admin/pages/Accounts/components/UsersList";
-import { AdminsList } from "src/admin/pages/Accounts/components/AdminsList";
+
+import { LocalMenu } from "src/admin/components/LocalMenu";
+
+const UsersList = dynamic(() => import("src/admin/pages/Accounts/components/UsersList"));
+const AdminsList = dynamic(() => import("src/admin/pages/Accounts/components/AdminsList"));
+const AdminAddEdit = dynamic(() => import("src/admin/pages/Accounts/components/AdminAddEdit"));
+
+export type RouteParamsAdminEdit = { id: string };
 
 export const Accounts = () => {
   const localMenuItems = [
@@ -22,6 +28,8 @@ export const Accounts = () => {
       <Routes>
         <Route path="/" element={<UsersList />} />
         <Route path="/admins" element={<AdminsList />} />
+        <Route path="/admins/add" element={<AdminAddEdit isAdd />} />
+        <Route path="/admins/edit/:id" element={<AdminAddEdit />} />
       </Routes>
     </>
   );

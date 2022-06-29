@@ -64,8 +64,8 @@ const auth = createSlice({
   },
 });
 
-export const validationSelector = (state: Store) => state.userAdmin.validation;
-export const getLoggedUserSelector = (state: Store) => state.userAdmin.user;
-export const isLoggedUserSelector = (state: Store) => state.userAdmin.isLogged;
+export const validationSelector = (state: Store) => state.userAuth.validation;
+export const getLoggedUserSelector = (state: Store) => state.userAuth.user;
+export const isLoggedUserSelector = (state: Store) => state.userAuth.isLogged;
 export const { setLoggedUser } = auth.actions;
-export const userAdmin = auth.reducer;
+export const userAuth = auth.reducer;
