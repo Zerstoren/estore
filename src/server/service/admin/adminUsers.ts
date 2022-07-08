@@ -5,17 +5,17 @@ import {
   type AdminAddEditUserArguments,
   type AdminDeleteUserArguments,
   type AdminGetUserArguments,
-} from "pages/api/trpc/admin/users";
+} from "pages/api/trpc/admin/adminUsers";
 import { getCollection } from "src/server/utils/mongodb";
 import { withoutBsonId } from "src/server/utils/withoutBsonId";
 
 export const ServiceAdminUsersList = async () => {
-  const collection = await getCollection("admin");
+  const collection = await getCollection("adminUsers");
   return collection.find({}).map(withoutBsonId).toArray();
 };
 
 export const ServiceAdminUsersGet = async ({ _id }: AdminGetUserArguments) => {
-  const collection = await getCollection("admin");
+  const collection = await getCollection("adminUsers");
   const user = await collection.findOne({ _id: new ObjectId(_id) });
 
   if (user) {
@@ -30,7 +30,7 @@ export const ServiceAdminUsersAdd = async ({ record }: AdminAddEditUserArguments
     return "fail";
   }
 
-  const collection = await getCollection("admin");
+  const collection = await getCollection("adminUsers");
   await collection.insertOne({
     name: record.name,
     password: password.generate(record.password),
@@ -40,7 +40,7 @@ export const ServiceAdminUsersAdd = async ({ record }: AdminAddEditUserArguments
 };
 
 export const ServiceAdminUsersEdit = async ({ _id, record }: AdminAddEditUserArguments) => {
-  const collection = await getCollection("admin");
+  const collection = await getCollection("adminUsers");
   await collection.updateOne(
     { _id: new ObjectId(_id) },
     {
@@ -55,7 +55,7 @@ export const ServiceAdminUsersEdit = async ({ _id, record }: AdminAddEditUserArg
 };
 
 export const ServiceAdminUsersDel = async ({ _id }: AdminDeleteUserArguments) => {
-  const collection = await getCollection("admin");
+  const collection = await getCollection("adminUsers");
   await collection.deleteOne({ _id: new ObjectId(_id) });
   return true;
 };

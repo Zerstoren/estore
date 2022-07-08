@@ -4,7 +4,7 @@ import { Provider } from "react-redux";
 import { Helmet } from "react-helmet";
 
 import { trpc } from "src/utils/network/trpc";
-import { type AdminUser } from "src/admin/store/user/admin";
+import { type AdminUser } from "src/admin/store/user/userAdmins";
 import { ServerSidePropsContext, SetServerSideProps } from "src/admin/context/serverSidePropsContext";
 import { store } from "src/admin/store";
 import { Routes } from "src/admin/routes";

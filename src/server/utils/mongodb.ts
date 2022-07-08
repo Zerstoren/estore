@@ -8,12 +8,12 @@ const dbName = "estore";
 
 let connected = false;
 
-export async function getCollection(collection: keyof DbSchema) {
+export async function getCollection<T extends keyof DbSchema>(collection: T) {
   if (!connected) {
     await client.connect();
     connected = true;
   }
 
   const db = client.db(dbName);
-  return db.collection<DbSchema[typeof collection]>(collection);
+  return db.collection<DbSchema[T]>(collection);
 }

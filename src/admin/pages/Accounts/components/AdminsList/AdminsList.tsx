@@ -3,9 +3,9 @@ import { NavLink } from "react-router-dom";
 import cx from "classnames";
 
 import { isPermitted, Permissions } from "src/utils/permissions";
-import { useAdminList } from "./hooks/useAdminList";
+import styles from "src/admin/scss/links.module.scss";
 
-import styles from "./adminList.module.scss";
+import { useAdminList } from "./hooks/useAdminList";
 
 export const AdminsList = () => {
   const { usersList, removeUser } = useAdminList();
@@ -52,13 +52,13 @@ export const AdminsList = () => {
                   <td>{permissionsText.join(" & ")}</td>
                   <td>
                     <NavLink to={`/admin/accounts/admins/edit/${user._id}`}>
-                      <i className={cx("fas fa-edit", styles.adminListIconManipulation)} />
+                      <i className={cx("fas fa-edit", styles.adminIconLinks)} />
                     </NavLink>
                     <i
                       role="link"
-                      area-label="Remove user"
+                      aria-label="Remove user"
                       onPointerDown={() => removeUser(user._id)}
-                      className={cx("fas fa-ban", styles.adminListIconManipulation)}
+                      className={cx("fas fa-ban", styles.adminIconLinks)}
                     />
                   </td>
                 </tr>

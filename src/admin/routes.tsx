@@ -24,7 +24,7 @@ export const Routes = () => {
     <BaseLayout isLogin={isLoggedUser}>
       <ReactRoutes>
         <Route path="/admin/accounts/*" element={<Accounts />} />
-        <Route path="/admin/products" element={<Products />} />
+        <Route path="/admin/products/*" element={<Products />} />
         <Route path="/admin" element={isLoggedUser ? <Dashboard /> : <Login />} />
       </ReactRoutes>
     </BaseLayout>

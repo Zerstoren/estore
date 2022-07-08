@@ -1,14 +1,13 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { trpc } from "src/utils/network/trpc";
-import { AdminAddEditUserArguments } from "pages/api/trpc/admin/users";
+import { AdminAddEditUserArguments } from "pages/api/trpc/admin/adminUsers";
 import { RequestStatus } from "src/utils/network/requestStatus";
 import type { Store } from "src/admin/store";
+import { type AdminUsersSchema } from "src/server/utils/dbSchema";
 
 export type AdminUser = {
   _id: string;
-  name: string;
-  permission: number;
-};
+} & AdminUsersSchema;
 
 const initialState: {
   listUsers: Array<AdminUser>;
@@ -40,29 +39,29 @@ const initialState: {
   delRequestStatus: RequestStatus.INIT,
 };
 
-export const listThunk = createAsyncThunk("admin/adminUsers/list", () => {
+export const adminsListThunk = createAsyncThunk("admin/adminUsers/list", () => {
   return trpc.query("admin.adminUsers.list");
 });
 
-export const getThunk = createAsyncThunk("admin/adminUsers/get", (_id: string) => {
+export const adminsGetThunk = createAsyncThunk("admin/adminUsers/get", (_id: string) => {
   return trpc.query("admin.adminUsers.get", { _id });
 });
 
-export const addThunk = createAsyncThunk("admin/adminUsers/add", (record: AdminAddEditUserArguments["record"]) => {
+export const adminAddThunk = createAsyncThunk("admin/adminUsers/add", (record: AdminAddEditUserArguments["record"]) => {
   return trpc.mutation("admin.adminUsers.add", {
     record,
   });
 });
 
-export const editThunk = createAsyncThunk("admin/adminUsers/edit", (data: AdminAddEditUserArguments) => {
+export const adminEditThunk = createAsyncThunk("admin/adminUsers/edit", (data: AdminAddEditUserArguments) => {
   return trpc.mutation("admin.adminUsers.edit", data);
 });
 
-export const delThunk = createAsyncThunk("admin/adminUsers/del", (_id: string) => {
+export const adminDelThunk = createAsyncThunk("admin/adminUsers/del", (_id: string) => {
   return trpc.mutation("admin.adminUsers.del", { _id });
 });
 
-const admin = createSlice({
+const admins = createSlice({
   name: "admin/adminUsers",
   initialState,
   reducers: {
@@ -77,59 +76,59 @@ const admin = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(listThunk.pending, (state) => {
+      .addCase(adminsListThunk.pending, (state) => {
         state.listRequestStatus = RequestStatus.PENDING;
       })
-      .addCase(listThunk.fulfilled, (state, { payload }) => {
+      .addCase(adminsListThunk.fulfilled, (state, { payload }) => {
         state.listRequestStatus = RequestStatus.FULFILLED;
         state.listUsers = payload;
       })
-      .addCase(listThunk.rejected, (state) => {
+      .addCase(adminsListThunk.rejected, (state) => {
         state.listRequestStatus = RequestStatus.REJECTED;
       });
 
     builder
-      .addCase(getThunk.pending, (state) => {
+      .addCase(adminsGetThunk.pending, (state) => {
         state.oneUserRequestStatus = RequestStatus.PENDING;
       })
-      .addCase(getThunk.fulfilled, (state, { payload }) => {
+      .addCase(adminsGetThunk.fulfilled, (state, { payload }) => {
         state.oneUserRequestStatus = RequestStatus.FULFILLED;
         state.oneUser = payload;
       })
-      .addCase(getThunk.rejected, (state) => {
+      .addCase(adminsGetThunk.rejected, (state) => {
         state.oneUserRequestStatus = RequestStatus.REJECTED;
       });
 
     builder
-      .addCase(addThunk.pending, (state) => {
+      .addCase(adminAddThunk.pending, (state) => {
         state.addRequestStatus = RequestStatus.PENDING;
       })
-      .addCase(addThunk.fulfilled, (state) => {
+      .addCase(adminAddThunk.fulfilled, (state) => {
         state.addRequestStatus = RequestStatus.FULFILLED;
       })
-      .addCase(addThunk.rejected, (state) => {
+      .addCase(adminAddThunk.rejected, (state) => {
         state.addRequestStatus = RequestStatus.REJECTED;
       });
 
     builder
-      .addCase(editThunk.pending, (state) => {
+      .addCase(adminEditThunk.pending, (state) => {
         state.editRequestStatus = RequestStatus.PENDING;
       })
-      .addCase(editThunk.fulfilled, (state) => {
+      .addCase(adminEditThunk.fulfilled, (state) => {
         state.editRequestStatus = RequestStatus.FULFILLED;
       })
-      .addCase(editThunk.rejected, (state) => {
+      .addCase(adminEditThunk.rejected, (state) => {
         state.editRequestStatus = RequestStatus.REJECTED;
       });
 
     builder
-      .addCase(delThunk.pending, (state) => {
+      .addCase(adminDelThunk.pending, (state) => {
         state.delRequestStatus = RequestStatus.PENDING;
       })
-      .addCase(delThunk.fulfilled, (state) => {
+      .addCase(adminDelThunk.fulfilled, (state) => {
         state.delRequestStatus = RequestStatus.FULFILLED;
       })
-      .addCase(delThunk.rejected, (state) => {
+      .addCase(adminDelThunk.rejected, (state) => {
         state.delRequestStatus = RequestStatus.REJECTED;
       });
   },
@@ -140,5 +139,5 @@ export const adminUsersListRequestStatusSelector = (state: Store) => state.userA
 export const adminUserSelector = (state: Store) => state.userAdmins.oneUser;
 export const adminUserRequestStatusSelector = (state: Store) => state.userAdmins.oneUserRequestStatus;
 
-export const { clearListUsers, clearOneUser } = admin.actions;
-export const userAdmins = admin.reducer;
+export const { clearListUsers, clearOneUser } = admins.actions;
+export const userAdmins = admins.reducer;

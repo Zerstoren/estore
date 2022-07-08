@@ -2,13 +2,13 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
-import { addThunk, AdminUser, clearListUsers, editThunk } from "src/admin/store/user/admin";
+import { adminAddThunk, AdminUser, clearListUsers, adminEditThunk } from "src/admin/store/user/userAdmins";
 import { isPermitted, Permissions } from "src/utils/permissions";
 import { useAppDispatch } from "src/admin/store/useAppDispatch";
 
 import type { AdminAddEditForm } from "../AdminAddEdit";
 
-export const useAddEditForm = (user: AdminUser | null, isAdd: boolean) => {
+export const useAddEditForm = (user: AdminUser | null) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const methods = useForm<AdminAddEditForm>();
@@ -22,7 +22,7 @@ export const useAddEditForm = (user: AdminUser | null, isAdd: boolean) => {
     setValue("permissions4", isPermitted(permission, Permissions.USERS));
     setValue("permissions8", isPermitted(permission, Permissions.ADMINS));
     setValue("permissions16", isPermitted(permission, Permissions.SETTINGS));
-  }, [user?._id]);
+  }, [setValue, user?._id]);
 
   const onSubmit = methods.handleSubmit((data) => {
     const permission = Object.keys(data).reduce((accum, itemKeyNoType) => {
@@ -46,7 +46,7 @@ export const useAddEditForm = (user: AdminUser | null, isAdd: boolean) => {
 
     if (user) {
       dispatch(
-        editThunk({
+        adminEditThunk({
           _id: user._id,
           record: {
             permission,
@@ -62,7 +62,7 @@ export const useAddEditForm = (user: AdminUser | null, isAdd: boolean) => {
     }
 
     dispatch(
-      addThunk({
+      adminAddThunk({
         permission,
         name: data.name,
         password: data.password,

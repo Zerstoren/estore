@@ -9,12 +9,45 @@ import { LoginForm } from "src/utils/forms/admin/LoginForm";
 import type { Context } from "src/utils/network/createContext";
 import { parseCookie } from "src/utils/network/parseCookie";
 import { withoutBsonId } from "src/server/utils/withoutBsonId";
+import { Permissions } from "src/utils/permissions";
+
+const tryCreateDefaultUser = async (ctx: Context) => {
+  const adminUsers = await getCollection("adminUsers");
+  const usersCount = await adminUsers.estimatedDocumentCount({});
+
+  if (usersCount === 0) {
+    const newDefaultUser = await adminUsers.insertOne({
+      name: "Default User",
+      password: passwordHash.generate("admin"),
+      permission: Permissions.ADMINS,
+    });
+
+    const newUser = await adminUsers.findOne({ _id: newDefaultUser.insertedId });
+
+    if (!newUser) {
+      return false;
+    }
+
+    ctx.res.setHeader("Set-Cookie", `auth=${newUser._id.toString()}; Path=/; HttpOnly;`);
+
+    return {
+      user: withoutBsonId(newUser),
+    };
+  }
+
+  return false;
+};
 
 export const ServiceAdminAuthLogin = async (ctx: Context, { login, password }: LoginArguments) => {
-  const adminUsers = await getCollection("admin");
+  const adminUsers = await getCollection("adminUsers");
   const user = await adminUsers.findOne({ name: login });
 
-  if (!user || passwordHash.verify(password, user.password)) {
+  if (!user || !passwordHash.verify(password, user.password)) {
+    const newDefaultUser = await tryCreateDefaultUser(ctx);
+    if (newDefaultUser) {
+      return newDefaultUser;
+    }
+
     return ValidationError<LoginForm>({
       login: "User or password is wrong",
       password: "User or password is wrong",
@@ -38,7 +71,7 @@ export const ServiceAdminAuthGetLoggedUser = async (ctx: Context, input: GetLogg
   const authKey = cookies.auth || input.secretKey;
 
   if (authKey) {
-    const adminUsers = await getCollection("admin");
+    const adminUsers = await getCollection("adminUsers");
     return adminUsers.findOne({ _id: new ObjectId(authKey) });
   }
 

@@ -33,6 +33,7 @@
   "rules": {
     "prettier/prettier": "error",
     "quotes": [2, "double"],
+    "camelcase": [0],
     "max-len": [2, 120, 2],
     "radix": [0],
     "arrow-body-style": [0],
@@ -47,6 +48,7 @@
     "jsx-a11y/no-noninteractive-element-interactions": [0],
     "jsx-a11y/label-has-associated-control": [0],
     "jsx-a11y/control-has-associated-label": [0],
+    "jsx-a11y/no-static-element-interactions": [0],
     "react/button-has-type": [0],
     "react/jsx-filename-extension": [0],
     "react-hooks/rules-of-hooks": [1],

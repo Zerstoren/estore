@@ -6,9 +6,9 @@ import { getLoggedUserSelector } from "src/admin/store/user/auth";
 import {
   adminUsersListRequestStatusSelector,
   adminUsersListSelector,
-  delThunk,
-  listThunk,
-} from "src/admin/store/user/admin";
+  adminDelThunk,
+  adminsListThunk,
+} from "src/admin/store/user/userAdmins";
 import { RequestStatus } from "src/utils/network/requestStatus";
 
 export const useAdminList = () => {
@@ -22,14 +22,14 @@ export const useAdminList = () => {
       return;
     }
 
-    dispatch(delThunk(userId)).then(() => {
-      dispatch(listThunk());
+    dispatch(adminDelThunk(userId)).then(() => {
+      dispatch(adminsListThunk());
     });
   };
 
   useEffect(() => {
     if (usersListStatus === RequestStatus.INIT) {
-      dispatch(listThunk());
+      dispatch(adminsListThunk());
     }
   }, []);
 

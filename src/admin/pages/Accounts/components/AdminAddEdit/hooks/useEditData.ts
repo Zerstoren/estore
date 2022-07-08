@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 
 import { type RouteParamsAdminEdit } from "src/admin/pages/Accounts/Accounts";
 import { useAppDispatch } from "src/admin/store/useAppDispatch";
-import { adminUserRequestStatusSelector, adminUserSelector, delThunk, getThunk } from "src/admin/store/user/admin";
+import { adminUserRequestStatusSelector, adminUserSelector, adminsGetThunk } from "src/admin/store/user/userAdmins";
 import { RequestStatus } from "src/utils/network/requestStatus";
 
 export const useEditData = () => {
@@ -17,7 +17,7 @@ export const useEditData = () => {
 
   useEffect(() => {
     if (isEdit && userStatus === RequestStatus.INIT) {
-      dispatch(getThunk(params.id));
+      dispatch(adminsGetThunk(params.id));
     }
   }, []);
 

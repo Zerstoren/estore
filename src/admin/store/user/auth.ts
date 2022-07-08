@@ -6,7 +6,7 @@ import { trpc } from "src/utils/network/trpc";
 import { RequestStatus } from "src/utils/network/requestStatus";
 import { LoginForm } from "src/utils/forms/admin/LoginForm";
 import { type Store } from "src/admin/store";
-import { type AdminUser } from "src/admin/store/user/admin";
+import { type AdminUser } from "src/admin/store/user/userAdmins";
 
 const initialState: {
   user: undefined | AdminUser;
@@ -53,7 +53,7 @@ const auth = createSlice({
 
         state.requestStatus = RequestStatus.FULFILLED;
       })
-      .addCase(loginThunk.rejected, (state, { payload }) => {
+      .addCase(loginThunk.rejected, (state) => {
         state.requestStatus = RequestStatus.REJECTED;
       });
 

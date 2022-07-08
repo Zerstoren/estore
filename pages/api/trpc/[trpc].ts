@@ -3,13 +3,9 @@ import * as trpcNext from "@trpc/server/adapters/next";
 
 import { Context, createContext } from "src/utils/network/createContext";
 
-import { adminUsersTrpc } from "./admin/users";
-import { authTrpc } from "./admin/auth";
+import { admin } from "./admin";
 
-export const appRouter = trpc
-  .router<Context>()
-  .merge("admin.auth.", authTrpc)
-  .merge("admin.adminUsers.", adminUsersTrpc);
+export const appRouter = trpc.router<Context>().merge("admin.", admin);
 
 export type AppRouter = typeof appRouter;
 
