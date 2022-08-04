@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 
 import { userAdmins } from "./user/userAdmins";
 import { userAuth } from "./user/auth";
+import { props } from "./products/props";
 import { categories } from "./products/categories";
 
 export const store = configureStore({
@@ -9,6 +10,7 @@ export const store = configureStore({
     userAuth,
     userAdmins,
     categories,
+    props,
   },
 });
 

@@ -12,7 +12,7 @@ export const CategoryTree = () => {
   return (
     <div>
       <h2 className="tm-block-title category-tree-item" data-id="root">
-        Categories Tree{" "}
+        Categories Tree
         <NavLink to="/admin/products/categories/add" className={adminLinks.adminIconLinks}>
           <i className="fas fa-plus" />
         </NavLink>

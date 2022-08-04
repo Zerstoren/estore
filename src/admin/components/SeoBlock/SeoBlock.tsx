@@ -1,4 +1,4 @@
-import React, { FC, PropsWithChildren, useLayoutEffect, useState } from "react";
+import React, { FC, PropsWithChildren, useEffect, useState } from "react";
 import cx from "classnames";
 import linkStyles from "src/admin/scss/links.module.scss";
 import seoStyles from "./seoBlock.module.scss";
@@ -11,7 +11,7 @@ type SeoBlockProps = {
 export const SeoBlock: FC<PropsWithChildren<SeoBlockProps>> = ({ children, onClearValue, isPredefineOpen = false }) => {
   const [isOpen, setIsOpen] = useState(isPredefineOpen);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     setIsOpen(isPredefineOpen);
   }, [isPredefineOpen]);
 

@@ -1,0 +1,83 @@
+.imagesUpload {
+  background-color: #54657d;
+
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.imagesUploadFlex {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.imagesUploadDragOver {
+  background-color: #fff;
+  padding: 12px;
+}
+
+.imagesUploadImage {
+
+
+  width: 120px;
+  height: 120px;
+  border: 1px solid #fff;
+  border-radius: 5px;
+  background-color: #54657d;
+  margin: 10px;
+
+  img {
+    max-width: 118px;
+    max-height: 118px;
+  }
+}
+
+.imagesUploadImageContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: -24px;
+  width: 118px;
+  height: 118px;
+}
+
+.imagePrimaryIcon {
+  position: relative;
+  justify-content: left;
+  align-self: start;
+  left: 0px;
+  background-color: #666;
+  border-radius: 12px;
+  padding: 2px;
+  cursor: pointer;
+}
+
+.imagePrimaryIconPrimary {
+  background-color: #fff;
+  cursor: unset;
+}
+
+.imageRemoveIcon {
+  position: relative;
+  justify-content: left;
+  align-self: start;
+  left: 78px;
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 2px;
+  cursor: pointer;
+
+}
+
+.imagesUploadElement {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 120px;
+  height: 120px;
+  margin: 10px;
+  border-radius: 5px;
+  background-color: #54657d;
+  border: 1px solid #fff;
+  color: #fff;
+  opacity: 0.65;
+}

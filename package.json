@@ -10,9 +10,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "typecheck": "node node_modules/typescript/bin/tsc"
   },
   "dependencies": {
+    "@formkit/auto-animate": "^1.0.0-beta.1",
     "@reduxjs/toolkit": "^1.8.2",
     "@trpc/client": "^9.25.3",
     "@trpc/next": "^9.25.3",

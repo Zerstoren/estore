@@ -1,7 +1,8 @@
-import { useAppDispatch } from "src/admin/store/useAppDispatch";
+import { useLayoutEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
+import { useAppDispatch } from "src/admin/store/useAppDispatch";
 import { transformTextToUrl } from "src/utils/forms/transformTextToUrl";
 import {
   AdminCategories,
@@ -9,7 +10,6 @@ import {
   categoryEditThunk,
   clearCategoryList,
 } from "src/admin/store/products/categories";
-import { useLayoutEffect } from "react";
 
 export type CategoryAddEditForm = {
   name: string;

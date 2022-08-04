@@ -382,23 +382,12 @@ thead {
 .tm-table-mt {
     margin-top: 66px;
 }
-.page-item:first-child .page-link {
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-}
-.page-item:last-child .page-link {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-}
 .page-link {
     padding: 12px 18px;
 }
 .page-link,
 .page-link:hover {
     color: #000;
-}
-.page-item {
-    margin-right: 18px;
 }
 .page-item:last-child {
     margin-right: 0;

@@ -25,7 +25,7 @@ export const AdminAddEdit: FC<AdminAddEditProps> = ({ isAdd = false }) => {
   const {
     onSubmit,
     methods: { register },
-  } = useAddEditForm(user, isAdd);
+  } = useAddEditForm(user);
 
   if (!user && !isAdd) {
     return null;

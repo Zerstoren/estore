@@ -1,6 +1,7 @@
 import { createContext, useContext } from "react";
-import { AdminUser, setLoggedUser } from "src/admin/store/user/auth";
+import { setLoggedUser } from "src/admin/store/user/auth";
 import { useAppDispatch } from "src/admin/store/useAppDispatch";
+import { AdminUser } from "src/admin/store/user/userAdmins";
 
 export const ServerSidePropsContext = createContext<{
   user: null | AdminUser;
