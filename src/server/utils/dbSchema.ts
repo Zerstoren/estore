@@ -8,6 +8,7 @@ export type AdminUsersSchema = {
 
 export type CategoriesSchema = {
   name: string;
+  categoryProps: ObjectId[];
   url: string;
   title: string;
   keywords: string;

@@ -14,7 +14,8 @@ import type { Store } from "src/admin/store";
 export type AdminCategories = {
   _id: string;
   parent_id: string | null;
-} & Omit<CategoriesSchema, "parent_id">;
+  categoryProps: { value: string; label: string }[];
+} & Omit<CategoriesSchema, "parent_id" | "categoryProps">;
 
 export type AdminCategoryTree = {
   children: AdminCategoryTree[];
@@ -139,10 +140,10 @@ const iterateChildTree = (parent: AdminCategoryTree, categories: AdminCategories
 export const getList = (state: Store) => state.categories.list;
 export const getListRequestStatus = (state: Store) => state.categories.listRequestStatus;
 export const getOneCategory = (state: Store) => state.categories.oneCategory;
-export const getOneCategoryRequestStatus = (state: Store) => state.categories.oneCategoryRequestStatus;
 export const getTree = createSelector(getList, (list) => {
-  const rootNode = {
+  const rootNode: AdminCategoryTree = {
     children: [],
+    categoryProps: [],
     parent_id: null,
     name: "",
     url: "",

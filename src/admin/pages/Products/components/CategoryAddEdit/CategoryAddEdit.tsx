@@ -1,5 +1,6 @@
 import React, { FC } from "react";
 import cx from "classnames";
+import AsyncSelect from "react-select/async";
 
 import { SeoBlock } from "src/admin/components/SeoBlock";
 
@@ -15,9 +16,15 @@ export const CategoryAddEdit: FC<CategoryAddEditProps> = ({ isAdd = false }) => 
   const {
     onSubmit,
     onSeoClear,
+    onSearchProps,
+    onChangeProps,
     isPredefinedOpen,
     methods: { register },
   } = useCategoryForm(category);
+
+  if (!category) {
+    return null;
+  }
 
   return (
     <form onSubmit={onSubmit}>
@@ -28,6 +35,16 @@ export const CategoryAddEdit: FC<CategoryAddEditProps> = ({ isAdd = false }) => 
           <input {...register("name")} id="name" className="form-control validate" />
           <label htmlFor="name">Category name</label>
         </div>
+      </div>
+
+      <div className="form-group mb-3">
+        <AsyncSelect
+          isMulti
+          closeMenuOnSelect={false}
+          loadOptions={onSearchProps}
+          defaultValue={category.categoryProps}
+          onChange={onChangeProps}
+        />
       </div>
 
       <SeoBlock onClearValue={onSeoClear} isPredefineOpen={isPredefinedOpen}>

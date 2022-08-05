@@ -1,6 +1,7 @@
 import { useLayoutEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import type { MultiValue } from "react-select";
 
 import { useAppDispatch } from "src/admin/store/useAppDispatch";
 import { transformTextToUrl } from "src/utils/forms/transformTextToUrl";
@@ -10,9 +11,11 @@ import {
   categoryEditThunk,
   clearCategoryList,
 } from "src/admin/store/products/categories";
+import { AdminProps, propsListThunk } from "src/admin/store/products/props";
 
 export type CategoryAddEditForm = {
   name: string;
+  categoryProps: string[];
   url: string;
   title: string;
   keywords: string;
@@ -26,6 +29,18 @@ export const useCategoryForm = (category: AdminCategories | null) => {
 
   const methods = useForm<CategoryAddEditForm>();
   const { handleSubmit, setValue } = methods;
+
+  useLayoutEffect(() => {
+    if (!category) {
+      return;
+    }
+
+    setValue("name", category.name);
+    setValue("url", category.url);
+    setValue("title", category.title);
+    setValue("keywords", category.keywords);
+    setValue("description", category.description);
+  }, [setValue, category]);
 
   const onSubmit = handleSubmit(async (data) => {
     if (category) {
@@ -55,21 +70,40 @@ export const useCategoryForm = (category: AdminCategories | null) => {
     setValue("description", "");
   };
 
-  useLayoutEffect(() => {
-    if (!category) {
-      return;
+  const onSearchProps = async (inputValue: string) => {
+    const result = await dispatch(
+      propsListThunk({
+        limit: 15,
+        offset: 0,
+        search: inputValue,
+      }),
+    );
+
+    if (result) {
+      const results = result.payload as { items: AdminProps[] };
+      return results.items.map((prop) => {
+        return {
+          label: `${prop.name} (${prop.contextName})`,
+          value: prop._id,
+        };
+      });
     }
 
-    setValue("name", category.name);
-    setValue("url", category.url);
-    setValue("title", category.title);
-    setValue("keywords", category.keywords);
-    setValue("description", category.description);
-  }, [setValue, category]);
+    return [];
+  };
+
+  const onChangeProps = (options: MultiValue<{ label: string; value: string }>) => {
+    setValue(
+      "categoryProps",
+      options.map((option) => option.value),
+    );
+  };
 
   return {
     onSubmit,
     onSeoClear,
+    onSearchProps,
+    onChangeProps,
     methods,
     isPredefinedOpen,
   };

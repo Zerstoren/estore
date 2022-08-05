@@ -19,10 +19,21 @@ export const ServiceAdminCategoryList = async () => {
 
 export const ServiceAdminCategoryGet = async ({ _id }: CategoriesGetArguments) => {
   const collection = await getCollection("categories");
+  const propsCollection = await getCollection("props");
+
   const category = await collection.findOne({ _id: new ObjectId(_id) });
 
   if (category) {
-    return withoutBsonId(category, ["parent_id"]);
+    const categoryProps = await propsCollection
+      .find({ _id: { $in: category.categoryProps } })
+      // eslint-disable-next-line @typescript-eslint/no-shadow
+      .map(({ _id, name, contextName }) => ({
+        value: _id.toString(),
+        label: `${name} (${contextName})`,
+      }))
+      .toArray();
+
+    return { ...withoutBsonId(category, ["parent_id"]), categoryProps };
   }
 
   return category;
@@ -45,6 +56,7 @@ export const ServiceAdminCategoryAdd = async ({ record }: CategoriesAddEditArgum
   const collection = await getCollection("categories");
   await collection.insertOne({
     ...record,
+    categoryProps: record.categoryProps.map((_id) => new ObjectId(_id)),
     parent_id: null,
   });
   return "ok";
@@ -57,6 +69,7 @@ export const ServiceAdminCategoryEdit = async ({ _id, record }: CategoriesAddEdi
     {
       $set: {
         ...record,
+        categoryProps: record.categoryProps.map((_id) => new ObjectId(_id)),
       },
     },
   );

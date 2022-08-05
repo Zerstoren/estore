@@ -22,6 +22,7 @@ const CategoriesAddEdit = z.object({
   _id: z.string().optional(),
   record: z.object({
     name: z.string(),
+    categoryProps: z.array(z.string()),
     url: z.string(),
     title: z.string(),
     keywords: z.string(),
