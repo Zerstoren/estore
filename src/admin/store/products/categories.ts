@@ -41,8 +41,8 @@ const initialState: {
   editValidation: {},
 };
 
-export const categoryListThunk = createAsyncThunk("admin/categories/list", () => {
-  return trpc.query("admin.categories.list");
+export const categoryListThunk = createAsyncThunk("admin/categories/list", (search?: string) => {
+  return trpc.query("admin.categories.list", { search });
 });
 
 export const categoryGetThunk = createAsyncThunk("admin/categories/get", (_id: string) => {

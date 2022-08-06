@@ -13,6 +13,10 @@ const CategoriesGet = z.object({
   _id: z.string(),
 });
 
+const CategoriesList = z.object({
+  search: z.string().optional(),
+});
+
 const CategoriesChangeParent = z.object({
   _id: z.string(),
   parent_id: z.union([z.string(), z.null()]),
@@ -35,6 +39,7 @@ const CategoriesDel = z.object({
 });
 
 export type CategoriesGetArguments = z.infer<typeof CategoriesGet>;
+export type CategoriesListArguments = z.infer<typeof CategoriesList>;
 export type CategoriesChangeParentArguments = z.infer<typeof CategoriesChangeParent>;
 export type CategoriesAddEditArguments = z.infer<typeof CategoriesAddEdit>;
 export type CategoriesDelArguments = z.infer<typeof CategoriesDel>;
@@ -45,7 +50,8 @@ export const adminCategoriesTrpc = createRouter()
     resolve: ({ input }) => ServiceAdminCategoryGet(input),
   })
   .query("list", {
-    resolve: () => ServiceAdminCategoryList(),
+    input: CategoriesList,
+    resolve: ({ input }) => ServiceAdminCategoryList(input),
   })
   .mutation("change_parent", {
     input: CategoriesChangeParent,

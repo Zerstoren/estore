@@ -6,13 +6,20 @@ import type {
   CategoriesChangeParentArguments,
   CategoriesDelArguments,
   CategoriesGetArguments,
+  CategoriesListArguments,
 } from "pages/api/trpc/admin/categories";
 import { withoutBsonId } from "src/server/utils/withoutBsonId";
 
-export const ServiceAdminCategoryList = async () => {
+export const ServiceAdminCategoryList = async ({ search }: CategoriesListArguments) => {
   const collection = await getCollection("categories");
   return collection
-    .find({})
+    .find(
+      search
+        ? {
+            $text: { $search: search },
+          }
+        : {},
+    )
     .map((category) => withoutBsonId(category, ["parent_id"]))
     .toArray();
 };

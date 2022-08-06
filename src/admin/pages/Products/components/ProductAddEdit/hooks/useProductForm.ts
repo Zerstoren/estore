@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 
 import { AdminProduct, productEditThunk } from "src/admin/store/products/products";
 import { useAppDispatch } from "src/admin/store/useAppDispatch";
+import { AdminCategories, categoryListThunk } from "src/admin/store/products/categories";
 
 export type ProductAddEditForm = {
   name: string;
@@ -35,6 +36,21 @@ export const useProductForm = (product: AdminProduct | null) => {
     // navigate("/admin/products");
   });
 
+  const onSearchCategory = async (inputValue: string) => {
+    if (!inputValue) {
+      return [];
+    }
+
+    const { payload } = await dispatch(categoryListThunk(inputValue));
+    const categoriesList = payload as Array<AdminCategories>;
+    return categoriesList.map((category) => ({
+      label: category.name,
+      value: category._id,
+    }));
+  };
+
+  const onChangeCategory = () => {};
+
   const onSeoClear = () => {
     setValue("url", "");
     setValue("title", "");
@@ -46,6 +62,8 @@ export const useProductForm = (product: AdminProduct | null) => {
     methods,
     onSubmit,
     onSeoClear,
+    onSearchCategory,
+    onChangeCategory,
     isPredefinedOpen,
   };
 };

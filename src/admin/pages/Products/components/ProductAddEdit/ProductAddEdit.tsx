@@ -1,20 +1,33 @@
 import React, { FC } from "react";
+import cx from "classnames";
+import AsyncSelect from "react-select/async";
+
 import { useProductForm } from "src/admin/pages/Products/components/ProductAddEdit/hooks/useProductForm";
 import { SeoBlock } from "src/admin/components/SeoBlock";
 import { ImagesUpload } from "src/admin/components/ImagesUpload";
-import cx from "classnames";
 
 type ProductAddEditProps = {
   isAdd?: boolean;
 };
 
 export const ProductAddEdit: FC<ProductAddEditProps> = ({ isAdd = false }) => {
-  const { onSubmit, onSeoClear, isPredefinedOpen, methods } = useProductForm(null);
+  const { onSubmit, onSeoClear, onSearchCategory, onChangeCategory, isPredefinedOpen, methods } = useProductForm(null);
   const { register } = methods;
 
   return (
     <form onSubmit={onSubmit}>
       <h2 className="tm-block-title">{isAdd ? "Add new product" : "Edit product"}</h2>
+
+      <div className="form-group mb-3">
+        <AsyncSelect cacheOptions defaultOptions loadOptions={onSearchCategory} onChange={onChangeCategory} />
+      </div>
+
+      <div className="form-group mb-3">
+        <div className="form-floating">
+          <input {...register("name")} id="name" className="form-control validate" />
+          <label htmlFor="name">Product name</label>
+        </div>
+      </div>
 
       <div className="form-group mb-3">
         <div className="form-floating">

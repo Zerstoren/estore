@@ -40,6 +40,10 @@ export const useCategoryForm = (category: AdminCategories | null) => {
     setValue("title", category.title);
     setValue("keywords", category.keywords);
     setValue("description", category.description);
+    setValue(
+      "categoryProps",
+      category.categoryProps.map((prop) => prop.value),
+    );
   }, [setValue, category]);
 
   const onSubmit = handleSubmit(async (data) => {
@@ -54,6 +58,7 @@ export const useCategoryForm = (category: AdminCategories | null) => {
       await dispatch(
         categoryAddThunk({
           ...data,
+          categoryProps: data.categoryProps || [],
           url: data.url ? data.url : transformTextToUrl(data.name),
         }),
       );

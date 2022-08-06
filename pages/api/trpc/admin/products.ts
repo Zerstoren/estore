@@ -8,8 +8,6 @@ import {
   ServiceAdminProductGet,
   ServiceAdminProductList,
 } from "src/server/service/admin/products";
-import { Store } from "src/admin/store";
-import { createSelector } from "@reduxjs/toolkit";
 
 const ProductsGetParams = z.object({
   _id: z.string(),
