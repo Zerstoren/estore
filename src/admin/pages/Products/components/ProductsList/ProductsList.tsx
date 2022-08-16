@@ -7,7 +7,7 @@ export const ProductsList = () => {
   return (
     <div>
       <h2 className="tm-block-title" data-id="root">
-        Products{" "}
+        Products
         <NavLink to="/admin/products/add" className={adminLinks.adminIconLinks}>
           <i className="fas fa-plus" />
         </NavLink>

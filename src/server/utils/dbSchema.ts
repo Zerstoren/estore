@@ -20,13 +20,9 @@ export type ProductsSchema = {
   name: string;
   url: string;
 
-  image_pull: ObjectId;
+  // image_pull: ObjectId;
   category_id: ObjectId;
-  specifications: Array<[string, Array<ObjectId>]>;
-  stock: {
-    quantity: number;
-    price: number;
-  };
+  props: Array<[ObjectId, string | boolean | ObjectId[]]>;
 
   title: string;
   keywords: string;

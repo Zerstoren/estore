@@ -1,8 +1,11 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit";
+
 import { type ProductsSchema } from "src/server/utils/dbSchema";
 import { RequestStatus } from "src/utils/network/requestStatus";
 import { trpc } from "src/utils/network/trpc";
+import { AdminProps } from "src/admin/store/products/props";
 import { ProductsAddEditArguments, ProductsListArguments } from "pages/api/trpc/admin/products";
+import { type Store } from "src/admin/store";
 
 export type AdminProduct = {
   _id: string;
@@ -13,11 +16,17 @@ export type AdminProduct = {
 const initialState: {
   list: Array<AdminProduct>;
   listRequestStatus: RequestStatus;
-  product: AdminProduct | null;
+  product: {
+    data: AdminProduct | null;
+    props: AdminProps[] | null;
+  };
 } = {
   list: [],
   listRequestStatus: RequestStatus.INIT,
-  product: null,
+  product: {
+    data: null,
+    props: null,
+  },
 };
 
 export const productListThunk = createAsyncThunk("admin/products/list", (pagination: ProductsListArguments) => {
@@ -26,6 +35,10 @@ export const productListThunk = createAsyncThunk("admin/products/list", (paginat
 
 export const productGetThunk = createAsyncThunk("admin/products/get", (_id: string) => {
   return trpc.query("admin.products.get", { _id });
+});
+
+export const productGetPropsByCategory = createAsyncThunk("admin/products/propsByCategory", (_id: string) => {
+  return trpc.query("admin.props.byCategory", { _id });
 });
 
 export const productAddThunk = createAsyncThunk("admin/products/add", (record: ProductsAddEditArguments["record"]) => {
@@ -43,7 +56,12 @@ export const productDelThunk = createAsyncThunk("admin/products/del", (ids: Arra
 const prods = createSlice({
   name: "admin/products",
   initialState,
-  reducers: {},
+  reducers: {
+    clearProductList: (state) => {
+      state.list = [];
+      state.listRequestStatus = RequestStatus.INIT;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(productListThunk.pending, (state) => {
@@ -58,9 +76,18 @@ const prods = createSlice({
       });
 
     builder.addCase(productGetThunk.fulfilled, (state, action) => {
-      state.product = action.payload;
+      state.product.data = action.payload;
+    });
+
+    builder.addCase(productGetPropsByCategory.fulfilled, (state, action) => {
+      state.product.props = action.payload;
     });
   },
 });
+
+const get = (state: Store) => state.products;
+export const getProductPropsSelector = createSelector([get], (products) => products.product.props);
+
+export const { clearProductList } = prods.actions;
 
 export const products = prods.reducer;

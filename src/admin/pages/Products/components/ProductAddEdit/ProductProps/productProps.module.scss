@@ -1,0 +1,25 @@
+.productProps {
+  div {
+    margin-bottom: 4px;
+    padding-left: 0;
+  }
+
+  input[type="checkbox"] {
+    margin-left: 0;
+  }
+}
+
+.productPropsTupleVariant {
+  height: auto !important;
+
+  label {
+    line-height: 1.5;
+    margin-bottom: 0 !important;
+    margin-left: 12px;
+    cursor: pointer;
+  }
+
+  input {
+    cursor: pointer;
+  }
+}

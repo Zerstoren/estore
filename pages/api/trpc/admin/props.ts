@@ -2,6 +2,7 @@ import { z } from "zod";
 import { createRouter } from "src/utils/network/createRouter";
 import {
   ServiceAdminPropsAdd,
+  ServiceAdminPropsByCategory,
   ServiceAdminPropsDel,
   ServiceAdminPropsEdit,
   ServiceAdminPropsGet,
@@ -60,10 +61,15 @@ const PropsDelParams = z.object({
   ids: z.array(z.string()),
 });
 
+const PropsByCategoryParams = z.object({
+  _id: z.string(),
+});
+
 export type PropsGetArguments = z.infer<typeof PropsGetParams>;
 export type PropsListArguments = z.infer<typeof PropsListParams>;
 export type PropsAddEditArguments = z.infer<typeof PropsAddEditParams>;
 export type PropsDelArguments = z.infer<typeof PropsDelParams>;
+export type PropsByCategoryArguments = z.infer<typeof PropsByCategoryParams>;
 
 export const adminPropsTrpc = createRouter()
   .query("get", {
@@ -73,6 +79,10 @@ export const adminPropsTrpc = createRouter()
   .query("list", {
     input: PropsListParams,
     resolve: ({ input }) => ServiceAdminPropsList(input),
+  })
+  .query("byCategory", {
+    input: PropsByCategoryParams,
+    resolve: ({ input }) => ServiceAdminPropsByCategory(input),
   })
   .mutation("add", {
     input: PropsAddEditParams,

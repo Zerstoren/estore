@@ -23,7 +23,7 @@ const tryCreateDefaultUser = async (ctx: Context) => {
     });
 
     const newUser = await adminUsers.findOne({ _id: newDefaultUser.insertedId });
-
+    await createDbIndexes();
     if (!newUser) {
       return false;
     }
@@ -37,6 +37,19 @@ const tryCreateDefaultUser = async (ctx: Context) => {
 
   return false;
 };
+
+const createDbIndexes = async () => {
+  const props = await getCollection("props");
+  await props.createIndex({
+    name: "text",
+    contextName: "text",
+  })
+
+  const category = await getCollection("categories")
+  await category.createIndex({
+    name: "text"
+  });
+}
 
 export const ServiceAdminAuthLogin = async (ctx: Context, { login, password }: LoginArguments) => {
   const adminUsers = await getCollection("adminUsers");

@@ -5,6 +5,7 @@ import type {
   PropsGetArguments,
   PropsListArguments,
   PropsDelArguments,
+  PropsByCategoryArguments,
 } from "pages/api/trpc/admin/props";
 import { getCollection } from "src/server/utils/mongodb";
 import { withoutBsonId } from "src/server/utils/withoutBsonId";
@@ -50,6 +51,21 @@ export const ServiceAdminPropsList = async ({ offset, limit, search }: PropsList
     total,
     search: search || "",
   };
+};
+
+export const ServiceAdminPropsByCategory = async ({ _id }: PropsByCategoryArguments) => {
+  const categoriesCollection = await getCollection("categories");
+  const collection = await getCollection("props");
+  const category = await categoriesCollection.findOne({ _id: new ObjectId(_id) });
+
+  if (!category) {
+    return null;
+  }
+
+  return collection
+    .find({ _id: { $in: category.categoryProps } })
+    .map((prop) => withoutBsonId(prop))
+    .toArray();
 };
 
 export const ServiceAdminPropsAdd = async ({ record }: PropsAddEditArguments) => {

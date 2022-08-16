@@ -26,9 +26,9 @@ const ProductsAddEditParams = z.object({
     sku: z.string(),
     price: z.number(),
     image_pull: z.string(),
+
     category_id: z.string(),
-    specifications: z.array(z.tuple([z.string(), z.array(z.string())])),
-    stock: z.string(),
+    props: z.record(z.string(), z.union([z.string(), z.boolean(), z.record(z.string(), z.boolean())])),
 
     title: z.string(),
     keywords: z.string(),

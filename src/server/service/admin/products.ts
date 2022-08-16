@@ -9,6 +9,20 @@ import type {
   ProductsDelArguments,
 } from "pages/api/trpc/admin/products";
 
+const prepareData = (record: ProductsAddEditArguments["record"]) => ({
+  ...record,
+  category_id: new ObjectId(record.category_id),
+  // image_pull: new ObjectId(record.image_pull),
+  props: Object.keys(record.props).map((key): [ObjectId, string | boolean | ObjectId[]] => {
+    const prop = record.props[key];
+    if (typeof prop === "object") {
+      return [new ObjectId(key), Object.keys(prop).map((variant) => new ObjectId(variant))];
+    }
+
+    return [new ObjectId(key), prop];
+  }),
+});
+
 export const ServiceAdminProductGet = async ({ _id }: ProductsGetArguments) => {
   const collection = await getCollection("products");
   const product = await collection.findOne({ _id: new ObjectId(_id) });
@@ -26,36 +40,19 @@ export const ServiceAdminProductList = async ({ offset, limit }: ProductsListArg
     .find()
     .skip(offset)
     .limit(limit)
-    .map((product) => withoutBsonId(product, ["category_id", "image_pull", "stock"]))
+    .map((product) => withoutBsonId(product, ["category_id"]))
     .toArray();
 };
 
 export const ServiceAdminProductAdd = async ({ record }: ProductsAddEditArguments) => {
   const collection = await getCollection("products");
-  await collection.insertOne({
-    ...record,
-    category_id: new ObjectId(record.category_id),
-    image_pull: new ObjectId(record.image_pull),
-    stock: new ObjectId(record.stock),
-    specifications: [],
-  });
+  await collection.insertOne(prepareData(record));
   return "ok";
 };
 
 export const ServiceAdminProductEdit = async ({ _id, record }: ProductsAddEditArguments) => {
   const collection = await getCollection("products");
-  await collection.updateOne(
-    { _id: new ObjectId(_id) },
-    {
-      $set: {
-        ...record,
-        category_id: new ObjectId(record.category_id),
-        image_pull: new ObjectId(record.image_pull),
-        stock: new ObjectId(record.stock),
-        specifications: [],
-      },
-    },
-  );
+  await collection.updateOne({ _id: new ObjectId(_id) }, { $set: prepareData(record) });
   return "ok";
 };
 

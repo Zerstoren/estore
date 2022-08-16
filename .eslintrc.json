@@ -31,7 +31,10 @@
     }
   },
   "rules": {
-    "prettier/prettier": "error",
+    "prettier/prettier": ["error", {
+        "endOfLine": "auto"
+      }
+    ],
     "quotes": [2, "double"],
     "camelcase": [0],
     "max-len": [2, 120, 2],

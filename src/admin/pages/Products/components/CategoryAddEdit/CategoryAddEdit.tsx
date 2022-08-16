@@ -22,6 +22,10 @@ export const CategoryAddEdit: FC<CategoryAddEditProps> = ({ isAdd = false }) => 
     methods: { register },
   } = useCategoryForm(category);
 
+  if (!isAdd && !category) {
+    return null;
+  }
+
   return (
     <form onSubmit={onSubmit}>
       <h2 className="tm-block-title">{isAdd ? "Add new category" : `Edit category, ${category?.name}`}</h2>
